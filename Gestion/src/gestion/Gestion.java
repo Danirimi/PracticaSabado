@@ -16,6 +16,9 @@ public class Gestion {
     public static void main(String[] args) {
         // TODO code application logic here
         //si
+        java.awt.EventQueue.invokeLater(() -> new principal().setVisible(true));
+        
+        //SI
     }
     
 }
