@@ -4,6 +4,9 @@
  */
 package gestion;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
 /**
@@ -110,18 +113,33 @@ public class RegistrarUS extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-         String nombre = txtNombre.getText();
-    String contra = new String(txtContraseña.getPassword());
+      try {
+    // Obtener los datos desde los campos
+    String nombre = txtNombre.getText();
+    String contra = new String(txtContraseña.getPassword());  // Convertir char[] a String
     String correo = txtCorreo.getText();
 
-    usuarios nuevo = new usuarios(nombre, contra, correo);
-    GestionUsuario.registrarUsuario(nuevo);
+    // Conexión a la base de datos "Sabado"
+     Connection c = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/Sabado", "postgres", "admin");
 
-    JOptionPane.showMessageDialog(this, "Usuario registrado correctamente");
-    this.dispose(); // o abre otra ventana
-        
-        
+    // Insertar los datos en la tabla usuarios
+    String sql = "INSERT INTO Registrar(nombre, contraseña, correo) VALUES (?, ?, ?)";
+    PreparedStatement pst = c.prepareStatement(sql);
+    pst.setString(1, nombre);
+    pst.setString(2, contra);
+    pst.setString(3, correo);
+
+    pst.executeUpdate();
+
+    JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
+
+    pst.close();
+    c.close();
+    this.dispose();
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

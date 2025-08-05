@@ -4,6 +4,9 @@
  */
 package gestion;
 
+import com.sun.jdi.connect.spi.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
 /**
@@ -129,22 +132,36 @@ public class Agregar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProyectoActionPerformed
-        // TODO add your handling code here:
-         String nombre = txtNombreProyecto.getText();
-    String fechaC = txtFechaCreacion.getText();
-    String fechaE = txtFechaEntrega.getText();
-    boolean terminado = chkTerminado.isSelected();
+      try {
+        // Obtener los datos desde los campos
+        
+        String fechaC = txtFechaCreacion.getText();
+        String fechaE = txtFechaEntrega.getText();
+        String nombre = txtNombreProyecto.getText();
 
-    if (nombre.isEmpty() || fechaC.isEmpty() || fechaE.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
-        return;
+   
+        // Conexión a la base de datos "Sabado"
+        java.sql.Connection c = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/Sabado", "postgres", "admin");
+
+        // Insertar los datos en la tabla AgregarProyecto
+        String sql = "INSERT INTO AgregarProyecto (Nombre, FechaEntrega, FechaCreasion) VALUES (?, ?, ?)";
+        PreparedStatement pst = c.prepareStatement(sql);
+        pst.setString(1, nombre);
+        pst.setString(2, fechaE);
+        pst.setString(3, fechaC);
+
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Proyecto registrado correctamente");
+
+        pst.close();
+        c.close();
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
     }
-
-    proyecto nuevo = new proyecto(nombre, fechaC, fechaE, terminado);
-    usuarioActual.agregarProyecto(nuevo);
-
-    JOptionPane.showMessageDialog(this, "Proyecto agregado correctamente.");
-    this.dispose(); // Cierra la ventana
+      
     }//GEN-LAST:event_btnGuardarProyectoActionPerformed
 
     /**
