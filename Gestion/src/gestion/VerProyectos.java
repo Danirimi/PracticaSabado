@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gestion;
-
+import java.util.List;
+import java.util.ArrayList;
 /**
  *
  * @author danir
@@ -11,38 +12,38 @@ package gestion;
 public class VerProyectos extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VerProyectos.class.getName());
-
+     private usuarios usuarioActual;
     /**
      * Creates new form VerProyectos
      */
-    public VerProyectos() {
-        initComponents();
-    }
-      public VerProyectos(String texto) {
+    public VerProyectos(usuarios usuario) {
         initComponents();
         this.setLocationRelativeTo(null);
-        txtProyectos.setText(texto);
+        this.usuarioActual = usuario;
+        mostrarProyectos();
     }
 
-      
-        public void VentanaProyectos() {
-        initComponents();
+    private VerProyectos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-        usuarios u = RegistrarUS.usuarioActual; // Obtenemos el usuario actual
-
-        if (u != null) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("Proyectos de ").append(u.getNombre()).append(":\n\n");
-
-            for (proyecto p : u.proyectos) {
-                sb.append("Nombre: ").append(p.getNombre()).append("\n")
-                  .append("Creación: ").append(p.getFechaCreacion()).append("\n")
-                  .append("Entrega: ").append(p.getFechaEntrega()).append("\n")
-                  .append("Estado: ").append(p.isEstado() ? "Terminado" : "Pendiente").append("\n\n");
+    private void mostrarProyectos() {
+        StringBuilder sb = new StringBuilder();
+        List<proyecto> proyectos = usuarioActual.getProyectos();
+        
+        if (proyectos.isEmpty()) {
+            sb.append("No hay proyectos registrados.\n");
+        } else {
+            for (proyecto p : proyectos) {
+                sb.append("Nombre: ").append(p.getNombre()).append("\n");
+                sb.append("Fecha creación: ").append(p.getFechaCreacion()).append("\n");
+                sb.append("Fecha entrega: ").append(p.getFechaEntrega()).append("\n");
+                sb.append("¿Terminado?: ").append(p.isEstado() ? "Sí" : "No").append("\n");
+                sb.append("-------------------------------\n");
             }
-
-            txtProyectos.setText(sb.toString());
         }
+
+        txtProyectos.setText(sb.toString());
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -58,6 +59,7 @@ public class VerProyectos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        txtProyectos.setEditable(false);
         txtProyectos.setColumns(20);
         txtProyectos.setRows(5);
         jScrollPane1.setViewportView(txtProyectos);
@@ -71,13 +73,15 @@ public class VerProyectos extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 129, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 137, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
+    
     /**
      * @param args the command line arguments
      */
