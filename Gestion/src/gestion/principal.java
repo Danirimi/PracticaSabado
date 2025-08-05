@@ -112,7 +112,7 @@ public class principal extends javax.swing.JFrame {
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 288, Short.MAX_VALUE)))))
+                                .addGap(0, 63, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -143,7 +143,7 @@ public class principal extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 706, Short.MAX_VALUE)
+            .addGap(0, 481, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,7 +156,9 @@ public class principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +182,10 @@ String contraIngresada = txtContraseña.getText();
 usuarios actual = GestionUsuario.buscarUsuario(nombreIngresado);
 if (actual != null && actual.getContraseña().equals(contraIngresada)) {
     // Air ventana de proyectos y pasarle "actual"
-    System.out.println("hola");
+    RegistrarUS.usuarioActual = actual; // <-- guardar el usuario que inició sesión
+    JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso");
+      new MenuProyectos().setVisible(true); // ventana donde están los botones para ver y agregar proyectos
+    this.dispose();
 } else {
     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
 }   

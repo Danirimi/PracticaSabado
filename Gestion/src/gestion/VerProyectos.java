@@ -28,7 +28,7 @@ public class VerProyectos extends javax.swing.JFrame {
         public void VentanaProyectos() {
         initComponents();
 
-        usuarios u = VentanaLogin.usuarioActual; // Obtenemos el usuario actual
+        usuarios u = RegistrarUS.usuarioActual; // Obtenemos el usuario actual
 
         if (u != null) {
             StringBuilder sb = new StringBuilder();
